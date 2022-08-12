@@ -13,4 +13,6 @@ object Deps {
     val junitExt by lazy { "androidx.test.ext:junit:${Versions.testExt}" }
     val lifecycleKtx by lazy { "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleKtx}" }
     val materialDesign by lazy { "androidx.compose.material3:material3:${Versions.material3}" }
+    val moshi by lazy { "com.squareup.moshi:moshi-kotlin:${Versions.moshi}" }
+    val moshiCodegen by lazy { "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}" }
 }

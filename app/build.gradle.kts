@@ -25,7 +25,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
         getByName("debug") {
             isMinifyEnabled = false
@@ -33,7 +36,7 @@ android {
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
-                targetCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
 
     }
     kotlinOptions {
@@ -53,7 +56,8 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":domain"))
+    implementation(project(":data"))
     implementation(Deps.coreKtx)
     implementation(Deps.lifecycleKtx)
     implementation(Deps.activityCompose)

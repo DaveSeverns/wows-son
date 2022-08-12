@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Wow Son"
 include(":app")
+include(":domain")
+include(":data")
