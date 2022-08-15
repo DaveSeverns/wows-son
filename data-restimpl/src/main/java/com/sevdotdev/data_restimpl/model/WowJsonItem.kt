@@ -1,4 +1,4 @@
-package com.sevdotdev.data.model
+package com.sevdotdev.data_restimpl.model
 
 
 import com.squareup.moshi.Json

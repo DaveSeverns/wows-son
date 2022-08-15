@@ -1,7 +1,6 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
-    kotlin("kapt")
 }
 
 java {
@@ -10,6 +9,6 @@ java {
 }
 
 dependencies {
-    implementation(Deps.moshi)
-    kapt(Deps.moshiCodegen)
+    api(project(":domain"))
+    implementation(Deps.coroutines)
 }

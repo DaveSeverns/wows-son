@@ -6,26 +6,33 @@ data class WowContent(
 )
 
 data class VideoContent(
-    val highDefOptions: List<Definition.HighDef>,
-    val standardDefOptions: List<Definition.StandardDef>,
+    val highDefOptions: List<VideoOption.HighDef>,
+    val standardDefOptions: List<VideoOption.StandardDef>,
 )
 
-sealed interface Definition {
+sealed interface VideoOption {
     val url: String
 
-    data class HighDef(override val url: String) : Definition
-    data class StandardDef(override val url: String) : Definition
+    data class HighDef(
+        override val url: String,
+        val resolution: Resolution.HD = Resolution.HD.SEVEN_20,
+    ) : VideoOption
 
-    companion object {
-        val highDefOptions = listOf(Resolution.FOUR_K, Resolution.TEN_80, Resolution.SEVEN_20)
-        val standardDefOptions = listOf(Resolution.FOUR_80, Resolution.THREE_60)
-    }
+    data class StandardDef(
+        override val url: String,
+        val resolution: Resolution.SD = Resolution.SD.FOUR_80,
+    ) : VideoOption
 }
 
-enum class Resolution {
-    FOUR_K,
-    TEN_80,
-    SEVEN_20,
-    FOUR_80,
-    THREE_60,
+sealed interface Resolution {
+    enum class HD : Resolution {
+        FOUR_K,
+        TEN_80,
+        SEVEN_20,
+    }
+
+    enum class SD : Resolution {
+        FOUR_80,
+        THREE_60,
+    }
 }

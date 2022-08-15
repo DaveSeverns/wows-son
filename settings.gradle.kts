@@ -16,3 +16,4 @@ rootProject.name = "Wow Son"
 include(":app")
 include(":domain")
 include(":data")
+include(":data-restimpl")

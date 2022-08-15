@@ -56,8 +56,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":data"))
+    implementation(project(":data-restimpl"))
     implementation(Deps.coreKtx)
     implementation(Deps.lifecycleKtx)
     implementation(Deps.activityCompose)
@@ -74,4 +73,7 @@ dependencies {
     //hilt
     implementation(Deps.hilt)
     kapt(Deps.hiltCompiler)
+
+    implementation(Deps.retrofit)
+    implementation(Deps.retrofitMoshi)
 }
