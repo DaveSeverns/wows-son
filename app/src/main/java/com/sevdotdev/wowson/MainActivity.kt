@@ -3,22 +3,14 @@ package com.sevdotdev.wowson
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.sevdotdev.wowson.screens.WowListScreen
+import com.sevdotdev.wowson.screens.wowlist.WowListScreen
 import com.sevdotdev.wowson.ui.theme.WowSonTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +21,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         exoPlayer = ExoPlayer.Builder(this).build()
+        exoPlayer.apply {
+            prepare()
+            playWhenReady = true
+        }
         setContent {
             WowSonTheme {
                 // A surface container using the 'background' color from the theme
@@ -43,10 +39,6 @@ class MainActivity : ComponentActivity() {
                             onWowClicked = { audio ->
                                 val mediaItem = MediaItem.fromUri(audio)
                                 exoPlayer.setMediaItem(mediaItem)
-                                exoPlayer.apply {
-                                    prepare()
-                                    playWhenReady = true
-                                }
                             }
                         )
                     }
@@ -58,26 +50,5 @@ class MainActivity : ComponentActivity() {
     override fun onStop() {
         exoPlayer.release()
         super.onStop()
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .padding(top = 8.dp),
-    ) {
-        Image(painter = painterResource(id = R.drawable.icon_wow_son), contentDescription = "Logo")
-        Text(text = "$name, you're crazier than a road lizard!")
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DefaultPreview() {
-    WowSonTheme {
-        Greeting("Android")
     }
 }

@@ -4,7 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 
-internal class RunTimeFormatterTest{
+internal class RunTimeFormatterTest {
 
     private val secondsControl = 1L
     private val minutesControl = 60L
@@ -45,6 +45,4 @@ internal class RunTimeFormatterTest{
         val seconds = RunTimeFormatter.getRuntimeAsLong(runtimeIncorrect)
         assertEquals(0L, seconds)
     }
-
-
 }
