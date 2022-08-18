@@ -9,4 +9,6 @@ java {
 }
 
 dependencies {
+    testImplementation(Deps.junit)
+    testImplementation(Deps.junitExt)
 }
