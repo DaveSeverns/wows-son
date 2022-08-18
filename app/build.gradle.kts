@@ -72,8 +72,14 @@ dependencies {
 
     //hilt
     implementation(Deps.hilt)
+    implementation(Deps.hiltNavCompose)
     kapt(Deps.hiltCompiler)
 
     implementation(Deps.retrofit)
     implementation(Deps.retrofitMoshi)
+
+    implementation(Deps.coil)
+    implementation(Deps.exoPlayer)
+
+    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 }
