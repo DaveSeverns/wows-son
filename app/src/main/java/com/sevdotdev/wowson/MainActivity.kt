@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.sevdotdev.wowson.screens.wowlist.WowListScreen
@@ -17,15 +19,20 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    lateinit var exoPlayer: ExoPlayer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        exoPlayer = ExoPlayer.Builder(this).build()
+        val exoPlayer = ExoPlayer.Builder(this).build()
         exoPlayer.apply {
             prepare()
             playWhenReady = true
         }
         setContent {
+            val context = LocalContext.current
+            DisposableEffect(key1 = context, effect = {
+                onDispose {
+                    exoPlayer.release()
+                }
+            })
             WowSonTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -45,10 +52,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    override fun onStop() {
-        exoPlayer.release()
-        super.onStop()
     }
 }
