@@ -14,9 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ramcosta.composedestinations.annotation.Destination
 import com.sevdotdev.domain.model.WowMetaData
-import com.sevdotdev.wowson.ui.model.UiState
+import com.sevdotdev.wowson.ui.model.UiStateContentView
 
+@Destination(start = true)
 @Composable
 fun WowListScreen(
     modifier: Modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
@@ -24,30 +26,27 @@ fun WowListScreen(
     onWowClicked: (mediaItem: String) -> Unit = {},
 ) {
     val uiState by viewModel.wowListStateFlow.collectAsState()
-    when (uiState) {
-        is UiState.Loading -> {
+    UiStateContentView(
+        state = uiState,
+        loadingContent = {
             Box(modifier = modifier.fillMaxSize()) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
-        }
-        is UiState.Error -> {
-
-        }
-        is UiState.Success -> {
-            LazyColumn(
-                modifier = modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                items(
-                    items = (uiState as UiState.Success<List<WowMetaData>>).get(),
-                    key = {
-                        it.movieTitle + it.wowStats.indexOfWow
-                    },
-                ) { item: WowMetaData ->
-                    WowListItem(viewState = item, onPlayAudio = onWowClicked)
-                }
+        },
+        errorContent = {}) { wows ->
+        LazyColumn(
+            modifier = modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(
+                items = wows,
+                key = {
+                    it.movieTitle + it.wowStats.indexOfWow
+                },
+            ) { item: WowMetaData ->
+                WowListItem(viewState = item, onPlayAudio = onWowClicked)
             }
         }
     }

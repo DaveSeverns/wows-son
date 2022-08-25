@@ -34,14 +34,11 @@ class MainActivity : ComponentActivity() {
                 }
             })
             WowSonTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Column(modifier = Modifier.fillMaxSize()) {
-
-                        //Greeting("Android")
                         WowListScreen(
                             onWowClicked = { audio ->
                                 val mediaItem = MediaItem.fromUri(audio)
