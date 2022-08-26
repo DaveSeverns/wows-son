@@ -32,6 +32,7 @@ class WowListViewModel @Inject constructor(private val repository: WowRepository
                     },
                     onFailure = {
                         Log.d(this@WowListViewModel::class.simpleName, it.stackTraceToString())
+                        _wowListStateFlow.value = UiState.Error(exception = it)
                     }
                 )
             }.collect()

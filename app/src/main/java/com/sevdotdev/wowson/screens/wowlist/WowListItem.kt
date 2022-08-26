@@ -41,7 +41,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -64,6 +63,7 @@ fun WowListItem(
     viewState: WowMetaData,
     onPlayAudio: (audio: String) -> Unit,
     expandedState: Boolean = false,
+    onDetailsClicked: (title: String, index: String) -> Unit
 ) {
     var expanded by remember {
         mutableStateOf(expandedState)
@@ -102,7 +102,8 @@ fun WowListItem(
                 fullLine = viewState.fullLine,
                 characterName = viewState.characterName,
                 filmTitle = viewState.movieTitle,
-                releaseDate = viewState.releaseDate
+                releaseDate = viewState.releaseDate,
+                onDetailsClicked = onDetailsClicked
             )
         }
     }
@@ -121,10 +122,9 @@ private fun WowImageWithAudio(
             .clip(RoundedCornerShape(bottomEnd = 15.dp, bottomStart = 15.dp))
             .aspectRatio(1f),
     ) {
-        val painter = ImageRequest.Builder(LocalContext.current).data(imageUrl)
-            .placeholder(R.drawable.icon_wow_son).crossfade(2000).build()
         AsyncImage(
-            model = painter,
+            model = ImageRequest.Builder(LocalContext.current).data(imageUrl)
+                .placeholder(R.drawable.icon_wow_son).crossfade(true).build(),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxWidth(),
@@ -156,8 +156,11 @@ private fun WowDetails(
     filmTitle: String,
     releaseDate: String,
     modifier: Modifier = Modifier,
+    onDetailsClicked: (title: String, index: String) -> Unit,
 ) {
-    Row {
+    Row(
+        modifier = Modifier.clickable { onDetailsClicked(filmTitle, "1") }
+    ) {
         Column(
             modifier = Modifier
                 .padding(8.dp)
@@ -224,5 +227,7 @@ private fun PreviewWowListItem() = Surface {
         ),
         onPlayAudio = {},
         expandedState = true,
+        onDetailsClicked = { _, _ ->
+        }
     )
 }

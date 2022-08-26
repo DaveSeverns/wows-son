@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -53,6 +54,14 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    applicationVariants.all {
+        kotlin.sourceSets {
+            getByName(name) {
+                kotlin.srcDir("build/generated/ksp/$name/kotlin")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -80,6 +89,10 @@ dependencies {
 
     implementation(Deps.coil)
     implementation(Deps.exoPlayer)
+
+    //navigation
+    implementation(Deps.composeDestinationCore)
+    ksp(Deps.composeDestinationKsp)
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 }
