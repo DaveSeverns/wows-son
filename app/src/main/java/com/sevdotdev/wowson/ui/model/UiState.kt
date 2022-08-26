@@ -3,7 +3,7 @@ package com.sevdotdev.wowson.ui.model
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.sevdotdev.wowson.ui.model.UiState.Error.fold
+import com.sevdotdev.wowson.ui.model.UiState.Loading.fold
 
 
 sealed class UiState<out T> {
@@ -11,25 +11,23 @@ sealed class UiState<out T> {
     inline fun <R, reified T> UiState<T>.fold(
         isSuccess: (value: T) -> R,
         isLoading: () -> R,
-        isError: () -> R,
+        isError: (throwable: Throwable) -> R,
     ): R = when (this) {
         is Success<T> -> {
-            isSuccess(this.get())
+            isSuccess(viewState)
         }
-        Error -> {
-            isError()
+        is Error -> {
+            isError(exception)
         }
         Loading -> {
             isLoading()
         }
     }
 
-    data class Success<out T>(private val viewState: T) : UiState<T>() {
-        fun get(): T = viewState
-    }
+    data class Success<out T>(val viewState: T) : UiState<T>()
 
     object Loading : UiState<Nothing>()
-    object Error : UiState<Nothing>()
+    data class Error<Nothing>(val exception: Throwable) : UiState<Nothing>()
 }
 
 @Composable
@@ -41,7 +39,7 @@ inline fun <R, reified D, T : UiState<D>> UiStateContentView(
     content: @Composable (viewState: D) -> R,
 ): R = state.fold(
     isError = {
-        errorContent(null)
+        errorContent(it.message)
     },
     isLoading = {
         loadingContent()
