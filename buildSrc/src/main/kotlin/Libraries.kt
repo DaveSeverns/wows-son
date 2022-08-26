@@ -24,3 +24,12 @@ object Deps {
     val retrofit by lazy { "com.squareup.retrofit2:retrofit:${Versions.retrofit}" }
     val retrofitMoshi by lazy { "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}" }
 }
+
+object Plugins {
+    const val androidApp = "com.android.application"
+    const val androidLib = "com.android.library"
+    const val kotlinAndroid = "org.jetbrains.kotlin.android"
+    const val kotlinJvm = "org.jetbrains.kotlin.jvm"
+    const val hiltAndroid = "com.google.dagger.hilt.android"
+    const val ksp = "com.google.devtools.ksp"
+}
