@@ -5,7 +5,11 @@ import kotlinx.coroutines.flow.flowOf
 
 
 class WowRepositoryBaseImpl(private val wowDataSource: WowDataSource) : WowRepository {
-    override suspend fun getWowsData(): WowDataFlow {
+    override suspend fun getRandomWows(): WowDataListFlow {
         return flowOf(wowDataSource.getWowsMetaData())
+    }
+
+    override suspend fun getWowById(wowId: String): WowDataFlow {
+        return flowOf(wowDataSource.getWowMetaDataById(wowId))
     }
 }

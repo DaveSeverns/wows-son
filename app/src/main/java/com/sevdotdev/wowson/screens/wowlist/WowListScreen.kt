@@ -23,6 +23,7 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.sevdotdev.domain.model.WowMetaData
 import com.sevdotdev.wowson.screens.destinations.WowDetailsScreenDestination
+import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
 import com.sevdotdev.wowson.ui.model.UiStateContentView
 
 @RootNavGraph(start = true)
@@ -49,11 +50,7 @@ fun WowListScreen(
     UiStateContentView(
         state = uiState,
         loadingContent = {
-            Box(modifier = modifier.fillMaxSize()) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
+            DefaultLoadingScreen()
         },
         errorContent = {}) { wows ->
         LazyColumn(
@@ -71,14 +68,12 @@ fun WowListScreen(
                     onPlayAudio = {
                         exoPlayer.setMediaItem(MediaItem.fromUri(it))
                     },
-                    onDetailsClicked = { title, index ->
-                        navigator.navigate(
-                            WowDetailsScreenDestination(
-                                movieTitle = title,
-                                wowIndex = index
-                            )
-                        )
-                    })
+                    onDetailsClicked = { id ->
+                        navigator.navigate(WowDetailsScreenDestination(
+                            movieId = id
+                        ))
+                    },
+                )
             }
         }
     }
