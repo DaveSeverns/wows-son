@@ -63,7 +63,7 @@ fun WowListItem(
     viewState: WowMetaData,
     onPlayAudio: (audio: String) -> Unit,
     expandedState: Boolean = false,
-    onDetailsClicked: (id: String) -> Unit
+    onDetailsClicked: (id: String) -> Unit,
 ) {
     var expanded by remember {
         mutableStateOf(expandedState)
@@ -96,7 +96,6 @@ fun WowListItem(
             ),
             exit = slideOutVertically() + shrinkVertically() + fadeOut(),
         ) {
-
             Spacer(modifier = Modifier.size(8.dp))
             WowDetails(
                 fullLine = viewState.fullLine,
