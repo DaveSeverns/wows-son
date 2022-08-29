@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -65,7 +66,7 @@ fun WowListItem(
     expandedState: Boolean = false,
     onDetailsClicked: (id: String) -> Unit,
 ) {
-    var expanded by remember {
+    var expanded by rememberSaveable {
         mutableStateOf(expandedState)
     }
     Card(

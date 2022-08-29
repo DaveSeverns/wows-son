@@ -1,8 +1,6 @@
 package com.sevdotdev.wowson.screens.wowlist
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -21,6 +19,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.sevdotdev.domain.model.WowMetaData
 import com.sevdotdev.wowson.screens.destinations.WowDetailsScreenDestination
 import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
+import com.sevdotdev.wowson.ui.common.ext.screenPadding
 import com.sevdotdev.wowson.ui.model.UiStateContentView
 
 @RootNavGraph(start = true)
@@ -28,7 +27,7 @@ import com.sevdotdev.wowson.ui.model.UiStateContentView
 @Composable
 fun WowListScreen(
     navigator: DestinationsNavigator,
-    modifier: Modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
+    modifier: Modifier = Modifier,
     viewModel: WowListViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -67,7 +66,7 @@ fun WowListContent(
     onDetailsClicked: (id: String) -> Unit,
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.screenPadding(),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(

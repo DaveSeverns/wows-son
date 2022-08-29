@@ -1,5 +1,7 @@
 package com.sevdotdev.wowson
 
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,8 +9,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.sevdotdev.wowson.screens.NavGraphs
 import com.sevdotdev.wowson.ui.theme.WowSonTheme
@@ -19,18 +22,46 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val toggler =  object : OrientationToggler {
+            override fun toggle(orientation: Int) {
+                rotateToggle(orientation)
+            }
+
+        }
         setContent {
-            val context = LocalContext.current
             WowSonTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Column(modifier = Modifier.fillMaxSize()) {
-                        DestinationsNavHost(navGraph = NavGraphs.root)
+                    CompositionLocalProvider(LocalToggler provides toggler) {
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            DestinationsNavHost(navGraph = NavGraphs.root)
+                        }
                     }
                 }
             }
         }
+    }
+}
+
+val LocalToggler = compositionLocalOf<OrientationToggler> {
+    object : OrientationToggler {
+        override fun toggle(orientation: Int) {
+            //NOOP
+        }
+
+    }
+}
+
+interface OrientationToggler {
+    fun toggle(orientation: Int)
+}
+
+fun ComponentActivity.rotateToggle(orientation: Int) {
+    requestedOrientation = if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+    } else {
+        ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
     }
 }
