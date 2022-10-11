@@ -9,6 +9,6 @@ java {
 }
 
 dependencies {
-    api(project(":domain"))
+    implementation(project(":domain"))
     implementation(Deps.coroutines)
 }

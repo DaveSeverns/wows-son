@@ -66,6 +66,7 @@ android {
 
 dependencies {
     implementation(project(":data-restimpl"))
+    implementation(project(":domain"))
     implementation(Deps.coreKtx)
     implementation(Deps.lifecycleKtx)
     implementation(Deps.activityCompose)
