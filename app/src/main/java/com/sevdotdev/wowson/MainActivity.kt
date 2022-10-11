@@ -12,10 +12,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.lifecycleScope
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.sevdotdev.wowson.screens.NavGraphs
 import com.sevdotdev.wowson.ui.theme.WowSonTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -62,6 +65,14 @@ fun ComponentActivity.rotateToggle(orientation: Int) {
     requestedOrientation = if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
         ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     } else {
+        toPortraitUnspecified()
         ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    }
+}
+
+fun ComponentActivity.toPortraitUnspecified() {
+    lifecycleScope.launch{
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        delay(600)
     }
 }
