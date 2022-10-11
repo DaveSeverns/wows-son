@@ -62,10 +62,15 @@ android {
             }
         }
     }
+
+    lint {
+        baseline = file("lint-baseline.xml")
+    }
 }
 
 dependencies {
     implementation(project(":data-restimpl"))
+    implementation(project(":domain"))
     implementation(Deps.coreKtx)
     implementation(Deps.lifecycleKtx)
     implementation(Deps.activityCompose)

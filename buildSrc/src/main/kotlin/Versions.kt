@@ -1,7 +1,7 @@
 object Versions {
 
     //Plugins
-    const val aGP = "7.2.2"
+    const val aGP = "7.3.0"
     const val kotlin: String = "1.7.0"
     const val hiltAndroidPlugin = "2.42"
     const val kspPlugin: String = "1.7.0-1.0.6"

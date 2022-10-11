@@ -9,29 +9,32 @@ import com.sevdotdev.domain.model.WowContent
 import com.sevdotdev.domain.model.WowMetaData
 import com.sevdotdev.domain.model.WowStats
 import com.sevdotdev.domain.utils.RunTimeFormatter
-import java.time.format.DateTimeFormatter
 
 internal fun List<WowJsonItem>.toDomainList() =
-    map { json ->
-        WowMetaData(
-            content = json.video.toDomain(json.audio),
-            movieTitle = json.movie,
-            characterName = json.character,
-            directorName = json.director,
-            releaseDate = json.releaseDate,
-            movieDuration = json.movieDuration,
-            releaseYear = json.year.toString(),
-            fullLine = json.fullLine,
-            posterUrl = json.poster,
-            wowStats = WowStats(
-                totalWowsInMovie = json.totalWowsInMovie,
-                indexOfWow = json.currentWowInMovie,
-                timeOfWow =  RunTimeFormatter.getRuntimeAsLong(json.timestamp),
-                durationOfFilm = RunTimeFormatter.getRuntimeAsLong(json.movieDuration),
-            ),
-
-        )
+    map {
+        it.toDomain()
     }
+
+internal fun WowJsonItem.toDomain() = WowMetaData(
+    id = this.movie + DELIMITER + this.currentWowInMovie ,
+    content = this.video.toDomain(this.audio),
+    movieTitle = this.movie,
+    characterName = this.character,
+    directorName = this.director,
+    releaseDate = this.releaseDate,
+    movieDuration = this.movieDuration,
+    releaseYear = this.year.toString(),
+    fullLine = this.fullLine,
+    posterUrl = this.poster,
+    wowStats = WowStats(
+        totalWowsInMovie = this.totalWowsInMovie,
+        indexOfWow = this.currentWowInMovie,
+        timeOfWow = RunTimeFormatter.getRuntimeAsLong(this.timestamp),
+        durationOfFilm = RunTimeFormatter.getRuntimeAsLong(this.movieDuration),
+    ),
+)
+
+internal const val DELIMITER = "-"
 
 internal fun Video.toDomain(audioUrl: String) = WowContent(
     audioUrl = audioUrl,

@@ -1,6 +1,7 @@
 package com.sevdotdev.domain.model
 
 data class WowMetaData(
+    val id: String,
     val movieTitle: String,
     val characterName: String,
     val actor: String = WOW_GOD,

@@ -15,17 +15,17 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-typealias WowViewState = UiState<List<WowMetaData>>
+typealias WowListViewState = UiState<List<WowMetaData>>
 
 @HiltViewModel
 class WowListViewModel @Inject constructor(private val repository: WowRepository) : ViewModel() {
-    private val _wowListStateFlow: MutableStateFlow<WowViewState> =
+    private val _wowListStateFlow: MutableStateFlow<WowListViewState> =
         MutableStateFlow(UiState.Loading)
-    val wowListStateFlow: StateFlow<WowViewState> = _wowListStateFlow.asStateFlow()
+    val wowListStateFlow: StateFlow<WowListViewState> = _wowListStateFlow.asStateFlow()
 
     init {
         viewModelScope.launch {
-            repository.getWowsData().onEach { result ->
+            repository.getRandomWows().onEach { result ->
                 result.fold(
                     onSuccess = {
                         _wowListStateFlow.value = UiState.Success(viewState = it)

@@ -11,6 +11,7 @@ java {
 
 dependencies {
     api(project(":data"))
+    implementation(project(":domain"))
     implementation(Deps.moshi)
     kapt(Deps.moshiCodegen)
     implementation(Deps.retrofit)

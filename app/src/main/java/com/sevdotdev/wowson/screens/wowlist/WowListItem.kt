@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,9 +64,9 @@ fun WowListItem(
     viewState: WowMetaData,
     onPlayAudio: (audio: String) -> Unit,
     expandedState: Boolean = false,
-    onDetailsClicked: (title: String, index: String) -> Unit
+    onDetailsClicked: (id: String) -> Unit,
 ) {
-    var expanded by remember {
+    var expanded by rememberSaveable {
         mutableStateOf(expandedState)
     }
     Card(
@@ -96,12 +97,12 @@ fun WowListItem(
             ),
             exit = slideOutVertically() + shrinkVertically() + fadeOut(),
         ) {
-
             Spacer(modifier = Modifier.size(8.dp))
             WowDetails(
                 fullLine = viewState.fullLine,
                 characterName = viewState.characterName,
                 filmTitle = viewState.movieTitle,
+                wowId = viewState.id,
                 releaseDate = viewState.releaseDate,
                 onDetailsClicked = onDetailsClicked
             )
@@ -155,11 +156,12 @@ private fun WowDetails(
     characterName: String,
     filmTitle: String,
     releaseDate: String,
+    wowId: String,
     modifier: Modifier = Modifier,
-    onDetailsClicked: (title: String, index: String) -> Unit,
+    onDetailsClicked: (String) -> Unit,
 ) {
     Row(
-        modifier = Modifier.clickable { onDetailsClicked(filmTitle, "1") }
+        modifier = Modifier.clickable { onDetailsClicked(wowId) }
     ) {
         Column(
             modifier = Modifier
@@ -206,6 +208,7 @@ private fun WowDetails(
 private fun PreviewWowListItem() = Surface {
     WowListItem(
         viewState = WowMetaData(
+            id = "id",
             movieTitle = "Cars 2",
             characterName = "Lightning McQueen",
             actor = WOW_GOD,
@@ -227,7 +230,7 @@ private fun PreviewWowListItem() = Surface {
         ),
         onPlayAudio = {},
         expandedState = true,
-        onDetailsClicked = { _, _ ->
+        onDetailsClicked = { _ ->
         }
     )
 }
