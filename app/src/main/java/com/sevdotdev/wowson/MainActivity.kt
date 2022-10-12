@@ -13,8 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import com.ramcosta.composedestinations.DestinationsNavHost
-import com.sevdotdev.wowson.screens.NavGraphs
+import com.sevdotdev.wowson.screens.wowlist.WowListScreen
 import com.sevdotdev.wowson.ui.theme.WowSonTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -25,7 +24,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val toggler =  object : OrientationToggler {
+        val toggler = object : OrientationToggler {
             override fun toggle(orientation: Int) {
                 rotateToggle(orientation)
             }
@@ -39,7 +38,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     CompositionLocalProvider(LocalToggler provides toggler) {
                         Column(modifier = Modifier.fillMaxSize()) {
-                            DestinationsNavHost(navGraph = NavGraphs.root)
+                            WowListScreen()
                         }
                     }
                 }
@@ -71,7 +70,7 @@ fun ComponentActivity.rotateToggle(orientation: Int) {
 }
 
 fun ComponentActivity.toPortraitUnspecified() {
-    lifecycleScope.launch{
+    lifecycleScope.launch {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         delay(600)
     }

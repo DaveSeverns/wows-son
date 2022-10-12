@@ -41,7 +41,6 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSource
-import com.ramcosta.composedestinations.annotation.Destination
 import com.sevdotdev.domain.model.WowMetaData
 import com.sevdotdev.wowson.LocalToggler
 import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
@@ -50,11 +49,9 @@ import com.sevdotdev.wowson.ui.common.core.OpenFullscreen
 import com.sevdotdev.wowson.ui.common.core.VectorIcons
 import com.sevdotdev.wowson.ui.common.ext.conditionBased
 import com.sevdotdev.wowson.ui.common.ext.countSuffix
-import com.sevdotdev.wowson.ui.common.ext.modifyIfElse
 import com.sevdotdev.wowson.ui.common.ext.screenPadding
 import com.sevdotdev.wowson.ui.model.UiStateContentView
 
-@Destination
 @Composable
 fun WowDetailsScreen(
     movieId: String,
@@ -162,13 +159,13 @@ fun VideoPlayer(
     DisposableEffect(
         Box(
             modifier = Modifier
-                .conditionBased(condition = fullScreenMode){
-                            if (it) {
-                                fillMaxSize()
-                            } else {
-                                fillMaxWidth()
-                                    .aspectRatio(1.77f)
-                            }
+                .conditionBased(condition = fullScreenMode) {
+                    if (it) {
+                        fillMaxSize()
+                    } else {
+                        fillMaxWidth()
+                            .aspectRatio(1.77f)
+                    }
                 },
         ) {
             AndroidView(factory = {
