@@ -1,10 +1,10 @@
-package com.sevdotdev.wowson.ui.common.core
+package com.sevdotdev.wowson.ui.common.core.icons
 
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath
 import androidx.compose.ui.graphics.vector.ImageVector
 
-public val VectorIcons.FullscreenExit: ImageVector
+val VectorIcons.FullscreenExit: ImageVector
     get() {
         if (_fullscreenExit != null) {
             return _fullscreenExit!!

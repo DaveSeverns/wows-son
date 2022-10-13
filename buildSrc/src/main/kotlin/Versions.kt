@@ -23,7 +23,7 @@ object Versions {
 
     //Compose
     const val compose = "1.2.0"
-    const val composeActivity = "1.6.0-alpha05"
+    const val composeActivity = "1.5.0-beta01"
     const val material3 = "1.0.0-alpha11"
     const val coil = "2.1.0"
     const val composeDestinations = "1.6.16-beta"

@@ -1,3 +1,8 @@
-<resources>
+<resources >
     <string name="app_name">Wow Son</string>
+    <string name="favorites_screen_msg" >Favorite Some Wows to populate this screen....WOW!</string>
+    <string name="movies_screen_msg" >Welcome to the list of Wow-tastic films</string>
+    <string name="discover_label" >Discover</string>
+    <string name="movies_label" >All Films</string>
+    <string name="favorites_label">Favorites</string>
 </resources>

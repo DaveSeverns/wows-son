@@ -29,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,9 +45,9 @@ import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.sevdotdev.domain.model.WowMetaData
 import com.sevdotdev.wowson.LocalToggler
 import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
-import com.sevdotdev.wowson.ui.common.core.FullscreenExit
-import com.sevdotdev.wowson.ui.common.core.OpenFullscreen
-import com.sevdotdev.wowson.ui.common.core.VectorIcons
+import com.sevdotdev.wowson.ui.common.core.icons.FullscreenExit
+import com.sevdotdev.wowson.ui.common.core.icons.OpenFullscreen
+import com.sevdotdev.wowson.ui.common.core.icons.VectorIcons
 import com.sevdotdev.wowson.ui.common.ext.conditionBased
 import com.sevdotdev.wowson.ui.common.ext.countSuffix
 import com.sevdotdev.wowson.ui.common.ext.screenPadding
@@ -195,4 +196,14 @@ fun VideoPlayer(
     ) {
         onDispose { exoPlayer.release() }
     }
+}
+
+@Preview
+@Composable
+fun Test() {
+
+    Column {
+        WowDetailsScreen(movieId = "kfjdfkldj")
+    }
+
 }

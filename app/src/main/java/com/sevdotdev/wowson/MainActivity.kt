@@ -7,13 +7,23 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
+import com.sevdotdev.wowson.navigation.NavScreen
 import com.sevdotdev.wowson.screens.wowlist.WowListScreen
+import com.sevdotdev.wowson.ui.common.core.BottomNavBar
 import com.sevdotdev.wowson.ui.theme.WowSonTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -22,6 +32,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val toggler = object : OrientationToggler {
@@ -31,10 +42,20 @@ class MainActivity : ComponentActivity() {
 
         }
         setContent {
-            WowSonTheme {
-                Surface(
+            WowSonApp {
+                var navScreen by rememberSaveable {
+                    mutableStateOf(NavScreen.WowList)
+                }
+                Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    bottomBar = {
+                        BottomNavBar(
+                            selectedScreen = navScreen,
+                            onScreenSelected = {
+                                navScreen = it
+                            }
+                        )
+                    },
                 ) {
                     CompositionLocalProvider(LocalToggler provides toggler) {
                         Column(modifier = Modifier.fillMaxSize()) {
@@ -43,6 +64,20 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun WowSonApp(
+    appContent: @Composable () -> Unit,
+) {
+    WowSonTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            appContent()
         }
     }
 }

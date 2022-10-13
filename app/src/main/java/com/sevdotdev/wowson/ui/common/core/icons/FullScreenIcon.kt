@@ -1,4 +1,4 @@
-package com.sevdotdev.wowson.ui.common.core
+package com.sevdotdev.wowson.ui.common.core.icons
 
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material.icons.materialPath
