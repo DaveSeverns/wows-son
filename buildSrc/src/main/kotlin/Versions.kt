@@ -27,4 +27,5 @@ object Versions {
     const val material3 = "1.0.0-alpha11"
     const val coil = "2.1.0"
     const val composeDestinations = "1.6.16-beta"
+    const val navigationCompose: String ="2.5.1"
 }

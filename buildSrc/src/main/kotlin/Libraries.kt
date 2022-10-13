@@ -21,6 +21,7 @@ object Deps {
     val materialDesign by lazy { "androidx.compose.material3:material3:${Versions.material3}" }
     val moshi by lazy { "com.squareup.moshi:moshi-kotlin:${Versions.moshi}" }
     val moshiCodegen by lazy { "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}" }
+    val navigationCompose by lazy { "androidx.navigation:navigation-compose:${Versions.navigationCompose}" }
     val retrofit by lazy { "com.squareup.retrofit2:retrofit:${Versions.retrofit}" }
     val retrofitMoshi by lazy { "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}" }
 }
