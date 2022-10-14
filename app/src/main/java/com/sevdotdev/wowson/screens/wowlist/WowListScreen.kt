@@ -20,6 +20,7 @@ import com.sevdotdev.wowson.ui.model.UiStateContentView
 
 @Composable
 fun WowListScreen(
+    onDetailsClicked: (id: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: WowListViewModel = hiltViewModel(),
 ) {
@@ -46,7 +47,7 @@ fun WowListScreen(
 
             exoPlayer.setMediaItem(MediaItem.fromUri(it))
         }, onDetailsClicked = {
-            //TODO
+            onDetailsClicked(it)
         })
     }
 }
