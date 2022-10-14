@@ -3,6 +3,8 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id(Plugins.hiltAndroid)
+
+    id("kotlin-parcelize")
 }
 
 android {
@@ -95,7 +97,7 @@ dependencies {
     implementation(Deps.exoPlayer)
 
     //navigation
-    //TODO
+    implementation(Deps.navigationCompose)
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 }

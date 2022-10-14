@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,7 +30,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,7 +43,9 @@ import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.sevdotdev.domain.model.WowMetaData
+import com.sevdotdev.domain.model.WowStats
 import com.sevdotdev.wowson.LocalToggler
+import com.sevdotdev.wowson.screens.wowstats.ParcelableStats
 import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
 import com.sevdotdev.wowson.ui.common.core.icons.FullscreenExit
 import com.sevdotdev.wowson.ui.common.core.icons.OpenFullscreen
@@ -57,6 +59,7 @@ import com.sevdotdev.wowson.ui.model.UiStateContentView
 fun WowDetailsScreen(
     movieId: String,
     modifier: Modifier = Modifier,
+    onViewStatsClicked: (ParcelableStats) -> Unit,
     viewModel: WowDetailsViewModel = hiltViewModel(),
 ) {
     LaunchedEffect(key1 = movieId) {
@@ -70,7 +73,7 @@ fun WowDetailsScreen(
         errorContent = {
 
         }) {
-        WowDetailsContent(viewState = it)
+        WowDetailsContent(viewState = it, onViewStatsClicked = onViewStatsClicked)
     }
 }
 
@@ -78,6 +81,7 @@ fun WowDetailsScreen(
 @Composable
 fun WowDetailsContent(
     viewState: WowMetaData,
+    onViewStatsClicked: (ParcelableStats) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -124,10 +128,22 @@ fun WowDetailsContent(
                         )
                     }
                 }
+                Button(onClick = { onViewStatsClicked(viewState.wowStats.toParcelable()) }) {
+                    Text("View Wow Stats!")
+                }
             }
         }
     }
 
+}
+
+private fun WowStats.toParcelable(): ParcelableStats {
+    return ParcelableStats(
+        totalWowsInMovie = this.totalWowsInMovie,
+        indexOfWow = this.indexOfWow,
+        timeOfWow = this.timeOfWow,
+        durationOfFilm = this.durationOfFilm
+    )
 }
 
 @Composable
@@ -196,14 +212,4 @@ fun VideoPlayer(
     ) {
         onDispose { exoPlayer.release() }
     }
-}
-
-@Preview
-@Composable
-fun Test() {
-
-    Column {
-        WowDetailsScreen(movieId = "kfjdfkldj")
-    }
-
 }
