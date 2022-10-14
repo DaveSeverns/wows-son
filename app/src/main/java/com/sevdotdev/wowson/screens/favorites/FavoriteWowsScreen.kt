@@ -13,8 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ramcosta.composedestinations.annotation.Destination
 import com.sevdotdev.wowson.R
 
+@Destination
 @Composable
 fun FavoritesScreen() {
     Box(modifier = Modifier.fillMaxSize()) {

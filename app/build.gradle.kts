@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id(Plugins.hiltAndroid)
+    id(Plugins.ksp)
 }
 
 android {
@@ -95,7 +96,8 @@ dependencies {
     implementation(Deps.exoPlayer)
 
     //navigation
-    //TODO
+    implementation(Deps.composeDestinationCore)
+    ksp(Deps.composeDestinationKsp)
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 }

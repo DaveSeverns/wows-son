@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -42,8 +43,13 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSource
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import com.sevdotdev.domain.model.WowMetaData
+import com.sevdotdev.domain.model.WowStats
 import com.sevdotdev.wowson.LocalToggler
+import com.sevdotdev.wowson.screens.destinations.WowStatsScreenDestination
 import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
 import com.sevdotdev.wowson.ui.common.core.icons.FullscreenExit
 import com.sevdotdev.wowson.ui.common.core.icons.OpenFullscreen
@@ -53,9 +59,11 @@ import com.sevdotdev.wowson.ui.common.ext.countSuffix
 import com.sevdotdev.wowson.ui.common.ext.screenPadding
 import com.sevdotdev.wowson.ui.model.UiStateContentView
 
+@Destination
 @Composable
 fun WowDetailsScreen(
     movieId: String,
+    navigator: DestinationsNavigator,
     modifier: Modifier = Modifier,
     viewModel: WowDetailsViewModel = hiltViewModel(),
 ) {
@@ -70,7 +78,9 @@ fun WowDetailsScreen(
         errorContent = {
 
         }) {
-        WowDetailsContent(viewState = it)
+        WowDetailsContent(viewState = it) { stats ->
+            navigator.navigate(WowStatsScreenDestination(stats), onlyIfResumed = true)
+        }
     }
 }
 
@@ -79,6 +89,7 @@ fun WowDetailsScreen(
 fun WowDetailsContent(
     viewState: WowMetaData,
     modifier: Modifier = Modifier,
+    onViewStatsClick: (WowStats) -> Unit = {},
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         val isFullScreen =
@@ -123,6 +134,11 @@ fun WowDetailsContent(
                             } wow in ${viewState.movieTitle}"
                         )
                     }
+                }
+                Button(onClick = {
+                    onViewStatsClick(viewState.wowStats)
+                }) {
+                    Text(text = "View Stats Infographic")
                 }
             }
         }
@@ -203,7 +219,7 @@ fun VideoPlayer(
 fun Test() {
 
     Column {
-        WowDetailsScreen(movieId = "kfjdfkldj")
+        WowDetailsScreen(movieId = "kfjdfkldj", navigator = EmptyDestinationsNavigator)
     }
 
 }

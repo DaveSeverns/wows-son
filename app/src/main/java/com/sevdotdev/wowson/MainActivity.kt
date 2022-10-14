@@ -14,15 +14,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import com.sevdotdev.wowson.navigation.NavScreen
-import com.sevdotdev.wowson.screens.wowlist.WowListScreen
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.rememberNavController
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.ramcosta.composedestinations.navigation.navigate
+import com.sevdotdev.wowson.screens.NavGraphs
+import com.sevdotdev.wowson.screens.appCurrentDestinationAsState
 import com.sevdotdev.wowson.ui.common.core.BottomNavBar
 import com.sevdotdev.wowson.ui.theme.WowSonTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,23 +42,31 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             WowSonApp {
-                var navScreen by rememberSaveable {
-                    mutableStateOf(NavScreen.WowList)
-                }
+                val navController = rememberNavController()
+                val navRoute = navController.appCurrentDestinationAsState().value
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         BottomNavBar(
-                            selectedScreen = navScreen,
-                            onScreenSelected = {
-                                navScreen = it
+                            selectedRoute = navRoute?.route,
+                            onScreenSelected = { navScreen ->
+                                navController.navigate(navScreen.navRoute) {
+                                    popUpTo(navController.previousBackStackEntry?.destination?.id
+                                        ?: navController.graph.findStartDestination().id) {
+                                        saveState = true
+                                    }
+                                    launchSingleTop = true
+                                }
                             }
                         )
                     },
                 ) {
                     CompositionLocalProvider(LocalToggler provides toggler) {
                         Column(modifier = Modifier.fillMaxSize()) {
-                            WowListScreen()
+                            DestinationsNavHost(
+                                navGraph = NavGraphs.root,
+                                navController = navController,
+                            )
                         }
                     }
                 }
