@@ -13,12 +13,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.sevdotdev.domain.model.WowStats
 import com.sevdotdev.wowson.ui.common.core.icons.VectorIcons
 import com.sevdotdev.wowson.ui.common.core.icons.WowIcon
 
 @Composable
 fun WowStatsScreen(
-    stats: ParcelableStats,
+    stats: WowStats,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),

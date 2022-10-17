@@ -6,12 +6,11 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.sevdotdev.wowson.navigation.NavRoutes
 import com.sevdotdev.wowson.navigation.NavScreen
 
 @Composable
 fun BottomNavBar(
-    selectedRoute: String? = NavRoutes.WowList,
+    selectedRoute: String? = null,
     onScreenSelected: (NavScreen) -> Unit = {},
 ) {
     BottomAppBar {

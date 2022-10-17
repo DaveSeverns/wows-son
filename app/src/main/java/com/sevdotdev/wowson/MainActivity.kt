@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
                         BottomNavBar(
-                            selectedScreen = navScreen,
+                            selectedRoute  = null,
                             onScreenSelected = {
                                 navScreen = it
                             }
@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     CompositionLocalProvider(LocalToggler provides toggler) {
                         Column(modifier = Modifier.fillMaxSize()) {
-                            WowListScreen()
+                            WowListScreen(onDetailsClicked = {})
                         }
                     }
                 }
