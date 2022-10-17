@@ -32,7 +32,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.hilt.navigation.compose.hiltViewModel
+import cafe.adriel.voyager.androidx.AndroidScreen
+import cafe.adriel.voyager.hilt.getViewModel
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -53,11 +54,20 @@ import com.sevdotdev.wowson.ui.common.ext.countSuffix
 import com.sevdotdev.wowson.ui.common.ext.screenPadding
 import com.sevdotdev.wowson.ui.model.UiStateContentView
 
+data class WowDetailsScreen(
+    val movieId: String
+): AndroidScreen() {
+    @Composable
+    override fun Content() {
+        WowDetailsScreen(movieId = movieId, viewModel = getViewModel())
+    }
+}
+
 @Composable
 fun WowDetailsScreen(
     movieId: String,
     modifier: Modifier = Modifier,
-    viewModel: WowDetailsViewModel = hiltViewModel(),
+    viewModel: WowDetailsViewModel,
 ) {
     LaunchedEffect(key1 = movieId) {
         viewModel.getWowData(movieId)

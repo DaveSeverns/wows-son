@@ -71,7 +71,6 @@ dependencies {
     implementation(project(":data-restimpl"))
     implementation(project(":domain"))
     implementation(Deps.coreKtx)
-    implementation(Deps.lifecycleKtx)
     implementation(Deps.activityCompose)
     implementation(Deps.composeUi)
     implementation(Deps.composePreview)
@@ -95,7 +94,11 @@ dependencies {
     implementation(Deps.exoPlayer)
 
     //navigation
-    //TODO
+    implementation(Deps.voyagerNavigator)
+    implementation(Deps.voyagerTransitions)
+    implementation(Deps.voyagerHilt)
+    implementation(Deps.voyagerAndroidx)
+    implementation("androidx.fragment:fragment-ktx:1.5.3")
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
 }

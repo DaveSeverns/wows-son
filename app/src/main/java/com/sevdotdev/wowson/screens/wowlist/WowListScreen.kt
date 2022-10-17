@@ -10,19 +10,42 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import cafe.adriel.voyager.androidx.AndroidScreen
+import cafe.adriel.voyager.core.screen.ScreenKey
+import cafe.adriel.voyager.hilt.getViewModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.sevdotdev.domain.model.WowMetaData
+import com.sevdotdev.wowson.screens.wowdetails.WowDetailsScreen
 import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
 import com.sevdotdev.wowson.ui.common.ext.screenPadding
 import com.sevdotdev.wowson.ui.model.UiStateContentView
+
+
+class WowListScreen : AndroidScreen() {
+    override val key: ScreenKey
+        get() = "WOW_LIST"
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        val viewModel = getViewModel<WowListViewModel>()
+        WowListScreen(
+            onDetailsClicked = {
+                navigator.push(item = WowDetailsScreen(movieId = it))
+            },
+            viewModel = viewModel
+        )
+    }
+}
 
 @Composable
 fun WowListScreen(
     onDetailsClicked: (id: String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: WowListViewModel = hiltViewModel(),
+    viewModel: WowListViewModel,
 ) {
     val context = LocalContext.current
     val exoPlayer = ExoPlayer.Builder(context).build()

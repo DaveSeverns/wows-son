@@ -24,6 +24,11 @@ object Deps {
     val navigationCompose by lazy { "androidx.navigation:navigation-compose:${Versions.navigationCompose}" }
     val retrofit by lazy { "com.squareup.retrofit2:retrofit:${Versions.retrofit}" }
     val retrofitMoshi by lazy { "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}" }
+    val voyagerNavigator by lazy { "cafe.adriel.voyager:voyager-navigator:${Versions.voyager}" }
+    val voyagerTransitions by lazy { "cafe.adriel.voyager:voyager-transitions:${Versions.voyager}" }
+    val voyagerHilt by lazy { "cafe.adriel.voyager:voyager-hilt:${Versions.voyager}" }
+    val voyagerAndroidx by lazy { "cafe.adriel.voyager:voyager-androidx:${Versions.voyager}" }
+    val voyagerTabNav by lazy { "cafe.adriel.voyager:voyager-tab-navigator:${Versions.voyager}" }
 }
 
 object Plugins {
