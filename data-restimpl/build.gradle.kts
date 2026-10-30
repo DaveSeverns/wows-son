@@ -1,18 +1,17 @@
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
-    kotlin("kapt")
+    id(Plugins.ksp)
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+kotlin {
+    jvmToolchain(17)
 }
 
 dependencies {
     api(project(":data"))
     implementation(project(":domain"))
     implementation(Deps.moshi)
-    kapt(Deps.moshiCodegen)
+    ksp(Deps.moshiCodegen)
     implementation(Deps.retrofit)
 }

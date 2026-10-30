@@ -14,7 +14,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.ramcosta.composedestinations.DestinationsNavHost
-import com.sevdotdev.wowson.screens.NavGraphs
+import com.ramcosta.composedestinations.generated.NavGraphs
 import com.sevdotdev.wowson.ui.theme.WowSonTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
