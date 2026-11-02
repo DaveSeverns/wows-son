@@ -1,0 +1,1 @@
+buddies test: buddies-test/automated
