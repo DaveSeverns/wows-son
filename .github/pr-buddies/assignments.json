@@ -1,0 +1,16 @@
+{
+  "month": "2026-10",
+  "seed": 202610,
+  "buddies": {
+    "buddies-test-nobody": [
+      "DaveSeverns"
+    ],
+    "DaveSeverns": [
+      "dseverns-livefront",
+      "buddies-test-nobody"
+    ],
+    "dseverns-livefront": [
+      "DaveSeverns"
+    ]
+  }
+}

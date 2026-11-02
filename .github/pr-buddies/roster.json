@@ -1,0 +1,8 @@
+{
+  "members": [
+    { "github": "DaveSeverns", "team": "personal" },
+    { "github": "dseverns-livefront", "team": "livefront" },
+    { "github": "buddies-test-nobody", "team": "livefront", "note": "made-up handle: should be skipped with a warning" },
+    { "github": "buddies-test-away", "team": "sports", "active": false, "note": "inactive: never assigned" }
+  ]
+}
