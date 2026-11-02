@@ -1,0 +1,55 @@
+# Adds the author's PR buddies and teammates as assignees when a PR is opened or
+# marked ready for review. See .github/pr-buddies/README.md.
+#
+# pull_request_target runs with the base repo's token, so this job only ever checks
+# out the default branch (never the PR head): authors can't change their own buddies.
+
+name: PR Buddies Assign
+on:
+  pull_request_target:
+    types: ['opened', 'ready_for_review']
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  assign:
+    if: github.event.pull_request.draft == false
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+          sparse-checkout: .github/pr-buddies
+          persist-credentials: false
+
+      - name: Add assignees
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          TITLE: ${{ github.event.pull_request.title }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+        run: |
+          mapfile -t assignees < <(python3 .github/pr-buddies/assignees.py "$AUTHOR" --title "$TITLE")
+          if [ "${#assignees[@]}" -eq 0 ]; then
+            echo "No assignees to add."
+            exit 0
+          fi
+          echo "Adding assignees: ${assignees[*]}"
+
+          # REST add-assignees only adds (never removes) and skips handles that can't be
+          # assigned instead of failing the whole call, so one stale roster entry
+          # doesn't block everyone else.
+          args=()
+          for a in "${assignees[@]}"; do args+=(-f "assignees[]=$a"); done
+          assigned="$(gh api --method POST "repos/$REPO/issues/$PR_NUMBER/assignees" "${args[@]}" --jq '[.assignees[].login | ascii_downcase] | join(" ")')"
+          echo "PR #$PR_NUMBER assignees: $assigned"
+          for a in "${assignees[@]}"; do
+            lower="$(echo "$a" | tr '[:upper:]' '[:lower:]')"
+            if [[ " $assigned " != *" $lower "* ]]; then
+              echo "::warning::$a could not be assigned (not a collaborator with access to this repo?)"
+            fi
+          done

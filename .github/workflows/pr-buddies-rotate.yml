@@ -1,0 +1,105 @@
+# Monthly PR buddy rotation: regenerates .github/pr-buddies/assignments.json and
+# opens a draft PR with the new pairings. See .github/pr-buddies/README.md.
+
+name: PR Buddies Rotate
+on:
+  schedule:
+    - cron: '0 14 1 * *' # 14:00 UTC on the 1st of each month
+  workflow_dispatch:
+    inputs:
+      month:
+        description: 'Month to generate, YYYY-MM (default: current UTC month)'
+        required: false
+        type: string
+      seed:
+        description: 'Random seed (default: derived from the month, e.g. 2026-11 -> 202611)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: pr-buddies-rotate
+  cancel-in-progress: false
+
+jobs:
+  rotate:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Generate assignments
+        id: generate
+        env:
+          MONTH_INPUT: ${{ inputs.month }}
+          SEED_INPUT: ${{ inputs.seed }}
+        run: |
+          month="${MONTH_INPUT:-$(date -u +%Y-%m)}"
+          args=(--month "$month" --out .github/pr-buddies/assignments.json --table-out "$RUNNER_TEMP/table.md")
+          if [ -n "$SEED_INPUT" ]; then
+            if ! [[ "$SEED_INPUT" =~ ^-?[0-9]+$ ]]; then
+              echo "::error::seed must be an integer, got '$SEED_INPUT'"
+              exit 1
+            fi
+            args+=(--seed "$SEED_INPUT")
+          fi
+          python3 .github/pr-buddies/pr_buddies.py "${args[@]}"
+
+          echo "month=$month" >> "$GITHUB_OUTPUT"
+          if git diff --quiet -- .github/pr-buddies/assignments.json; then
+            echo "assignments.json is unchanged; nothing to do."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open or update draft PR
+        if: steps.generate.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MONTH: ${{ steps.generate.outputs.month }}
+          BASE: ${{ github.event.repository.default_branch }}
+        run: |
+          branch="pr-buddies/$MONTH"
+          title="PR buddies for $MONTH"
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$branch"
+          git add .github/pr-buddies/assignments.json
+          git commit -m "$title"
+          git push --force origin "HEAD:refs/heads/$branch"
+
+          body="$RUNNER_TEMP/body.md"
+          {
+            echo "> [!IMPORTANT]"
+            echo "> Review the pairings, then click **Ready for review** to run checks. Closing and reopening the PR also starts the checks."
+            echo ">"
+            echo "> Checks don't start on their own because this PR was opened by \`GITHUB_TOKEN\`. To swap a pairing, edit \`.github/pr-buddies/assignments.json\` on this branch before marking it ready; re-running the rotation workflow overwrites the branch."
+            echo
+            echo "Buddies are added as **assignees** on new PRs, along with the author's teammates. Assignments for $MONTH:"
+            echo
+            cat "$RUNNER_TEMP/table.md"
+          } > "$body"
+
+          existing="$(gh pr list --head "$branch" --base "$BASE" --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            echo "Updating existing PR #$existing"
+            gh pr edit "$existing" --title "$title" --body-file "$body"
+            # The force-push above doesn't trigger checks either, so put the PR back in
+            # draft; marking it ready again runs the checks against the new commit.
+            gh pr ready "$existing" --undo || true
+            exit 0
+          fi
+
+          if ! gh pr create --draft --base "$BASE" --head "$branch" --title "$title" --body-file "$body" 2> "$RUNNER_TEMP/create.err"; then
+            cat "$RUNNER_TEMP/create.err" >&2
+            if grep -qiE '403|not permitted to create or approve pull requests' "$RUNNER_TEMP/create.err"; then
+              echo "::error::GitHub Actions can't create pull requests in this repo. An admin needs to enable \"Allow GitHub Actions to create and approve pull requests\" (Settings > Actions > General > Workflow permissions, and the same setting at the org level). The branch $branch was pushed; you can open the PR by hand."
+            fi
+            exit 1
+          fi

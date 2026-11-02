@@ -1,0 +1,13 @@
+# Stand-in for life-time-one-android's pullrequest.yml, used to check that marking the
+# rotation PR "Ready for review" starts the PR checks. Test-only; not part of the PoC.
+
+name: Pull Request
+on:
+  pull_request:
+    types: ['opened', 'reopened', 'synchronize', 'ready_for_review']
+jobs:
+  stub:
+    if: github.event.pull_request.draft == false
+    runs-on: [ubuntu-latest]
+    steps:
+      - run: echo "PR checks ran for '${{ github.event.action }}' by ${{ github.actor }}"
