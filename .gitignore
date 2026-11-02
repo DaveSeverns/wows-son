@@ -3,7 +3,7 @@
 /local.properties
 /.idea/caches
 /.idea/libraries
-/.idea/modules.xmlgst
+/.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
@@ -15,3 +15,8 @@
 local.properties
 /buildSrc/build
 /.idea/deploymentTargetDropDown.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/kotlinc.xml
+/.idea/migrations.xml
+/.idea/AndroidProjectSystem.xml
+/.idea/runConfigurations.xml

@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object DataModule {
-    private const val BASE_URL = "https://owen-wilson-wow-api.herokuapp.com"
+    private const val BASE_URL = "https://owen-wilson-wow-api.onrender.com"
 
     @Provides
     @Singleton

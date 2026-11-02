@@ -1,14 +1,13 @@
 plugins {
     id(Plugins.androidApp)
-    kotlin("android")
-    kotlin("kapt")
+    id(Plugins.composeCompiler)
     id(Plugins.hiltAndroid)
     id(Plugins.ksp)
 }
 
 android {
     namespace = "com.sevdotdev.wowson"
-    compileSdk = ConfigData.targetSdkVersion
+    compileSdk = ConfigData.compileSdkVersion
 
     defaultConfig {
         applicationId = "com.sevdotdev.wowson"
@@ -36,30 +35,15 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
-    }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
-    }
-
-    applicationVariants.all {
-        kotlin.sourceSets {
-            getByName(name) {
-                kotlin.srcDir("build/generated/ksp/$name/kotlin")
-            }
         }
     }
 
@@ -74,12 +58,15 @@ dependencies {
     implementation(Deps.coreKtx)
     implementation(Deps.lifecycleKtx)
     implementation(Deps.activityCompose)
+    implementation(platform(Deps.composeBom))
     implementation(Deps.composeUi)
     implementation(Deps.composePreview)
     implementation(Deps.materialDesign)
+    implementation(Deps.composeIcons)
     testImplementation(Deps.junit)
     androidTestImplementation(Deps.junitExt)
     androidTestImplementation(Deps.espresso)
+    androidTestImplementation(platform(Deps.composeBom))
     androidTestImplementation(Deps.composeUiTest)
     debugImplementation(Deps.debugTooling)
     debugImplementation(Deps.debugManifest)
@@ -87,7 +74,7 @@ dependencies {
     //hilt
     implementation(Deps.hilt)
     implementation(Deps.hiltNavCompose)
-    kapt(Deps.hiltCompiler)
+    ksp(Deps.hiltCompiler)
 
     implementation(Deps.retrofit)
     implementation(Deps.retrofitMoshi)
@@ -99,5 +86,5 @@ dependencies {
     implementation(Deps.composeDestinationCore)
     ksp(Deps.composeDestinationKsp)
 
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.9.1")
+    debugImplementation(Deps.leakCanary)
 }
