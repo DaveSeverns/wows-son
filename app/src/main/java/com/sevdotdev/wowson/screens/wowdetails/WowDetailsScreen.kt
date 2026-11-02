@@ -46,9 +46,9 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.sevdotdev.domain.model.WowMetaData
 import com.sevdotdev.wowson.LocalToggler
 import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
-import com.sevdotdev.wowson.ui.common.core.FullscreenExit
-import com.sevdotdev.wowson.ui.common.core.OpenFullscreen
-import com.sevdotdev.wowson.ui.common.core.VectorIcons
+import com.sevdotdev.wowson.ui.common.core.icons.FullscreenExit
+import com.sevdotdev.wowson.ui.common.core.icons.OpenFullscreen
+import com.sevdotdev.wowson.ui.common.core.icons.VectorIcons
 import com.sevdotdev.wowson.ui.common.ext.conditionBased
 import com.sevdotdev.wowson.ui.common.ext.countSuffix
 import com.sevdotdev.wowson.ui.common.ext.modifyIfElse

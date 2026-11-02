@@ -17,13 +17,17 @@ object Deps {
     val hilt by lazy { "com.google.dagger:hilt-android:${Versions.hilt}" }
     val hiltCompiler by lazy { "com.google.dagger:hilt-compiler:${Versions.hilt}" }
     val hiltNavCompose by lazy { "androidx.hilt:hilt-navigation-compose:${Versions.androidHilt}" }
+    val kotlinxSerializationJson by lazy { "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinxSerialization}" }
     val junit by lazy { "junit:junit:${Versions.junit}" }
     val junitExt by lazy { "androidx.test.ext:junit:${Versions.testExt}" }
     val leakCanary by lazy { "com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}" }
     val lifecycleKtx by lazy { "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleKtx}" }
+    val lifecycleViewModelNavigation3 by lazy { "androidx.lifecycle:lifecycle-viewmodel-navigation3:${Versions.lifecycleNavigation3}" }
     val materialDesign by lazy { "androidx.compose.material3:material3" }
     val moshi by lazy { "com.squareup.moshi:moshi-kotlin:${Versions.moshi}" }
     val moshiCodegen by lazy { "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}" }
+    val navigation3Runtime by lazy { "androidx.navigation3:navigation3-runtime:${Versions.navigation3}" }
+    val navigation3Ui by lazy { "androidx.navigation3:navigation3-ui:${Versions.navigation3}" }
     val retrofit by lazy { "com.squareup.retrofit2:retrofit:${Versions.retrofit}" }
     val retrofitMoshi by lazy { "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}" }
 }
@@ -33,6 +37,7 @@ object Plugins {
     const val androidLib = "com.android.library"
     const val composeCompiler = "org.jetbrains.kotlin.plugin.compose"
     const val kotlinJvm = "org.jetbrains.kotlin.jvm"
+    const val kotlinSerialization = "org.jetbrains.kotlin.plugin.serialization"
     const val hiltAndroid = "com.google.dagger.hilt.android"
     const val ksp = "com.google.devtools.ksp"
 }
