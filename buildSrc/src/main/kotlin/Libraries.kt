@@ -1,8 +1,6 @@
 object Deps {
     val activityCompose by lazy { "androidx.activity:activity-compose:${Versions.composeActivity}" }
     val coil by lazy { "io.coil-kt:coil-compose:${Versions.coil}" }
-    val composeDestinationCore by lazy { "io.github.raamcosta.compose-destinations:core:${Versions.composeDestinations}" }
-    val composeDestinationKsp by lazy { "io.github.raamcosta.compose-destinations:ksp:${Versions.composeDestinations}" }
     val composeBom by lazy { "androidx.compose:compose-bom:${Versions.composeBom}" }
     val composeIcons by lazy { "androidx.compose.material:material-icons-core" }
     val composePreview by lazy { "androidx.compose.ui:ui-tooling-preview" }

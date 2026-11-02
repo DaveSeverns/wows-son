@@ -13,19 +13,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootGraph
-import com.ramcosta.composedestinations.generated.destinations.WowDetailsScreenDestination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.sevdotdev.domain.model.WowMetaData
 import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
 import com.sevdotdev.wowson.ui.common.ext.screenPadding
 import com.sevdotdev.wowson.ui.model.UiStateContentView
 
-@Destination<RootGraph>(start = true)
 @Composable
 fun WowListScreen(
-    navigator: DestinationsNavigator,
+    onDetailsClicked: (id: String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: WowListViewModel = hiltViewModel(),
 ) {
@@ -51,9 +46,7 @@ fun WowListScreen(
         WowListContent(viewState = wows, onPlayAudio = {
 
             exoPlayer.setMediaItem(MediaItem.fromUri(it))
-        }, onDetailsClicked = {
-            navigator.navigate(WowDetailsScreenDestination(it))
-        })
+        }, onDetailsClicked = onDetailsClicked)
     }
 }
 

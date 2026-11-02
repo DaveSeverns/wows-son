@@ -27,7 +27,6 @@ object Versions {
     const val composeBom = "2026.09.00"
     const val composeActivity = "1.13.0"
     const val coil = "2.7.0"
-    const val composeDestinations = "2.3.0"
 
     //Navigation 3
     const val navigation3 = "1.2.0"
