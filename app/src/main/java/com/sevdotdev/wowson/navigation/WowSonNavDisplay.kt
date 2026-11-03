@@ -25,7 +25,10 @@ fun WowSonNavDisplay(
             WowListScreen(onDetailsClicked = { backStack.push(WowDetailsKey(it)) })
         }
         entry<WowDetailsKey> { key ->
-            WowDetailsScreen(movieId = key.movieId)
+            WowDetailsScreen(
+                movieId = key.movieId,
+                onViewStatsClicked = { backStack.push(WowStatsKey(it)) },
+            )
         }
         entry<WowStatsKey> { key ->
             WowStatsScreen(stats = key.stats)

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -43,6 +45,7 @@ import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSource
 import com.sevdotdev.domain.model.WowMetaData
 import com.sevdotdev.wowson.LocalToggler
+import com.sevdotdev.wowson.R
 import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
 import com.sevdotdev.wowson.ui.common.core.icons.FullscreenExit
 import com.sevdotdev.wowson.ui.common.core.icons.OpenFullscreen
@@ -52,10 +55,13 @@ import com.sevdotdev.wowson.ui.common.ext.countSuffix
 import com.sevdotdev.wowson.ui.common.ext.modifyIfElse
 import com.sevdotdev.wowson.ui.common.ext.screenPadding
 import com.sevdotdev.wowson.ui.model.UiStateContentView
+import com.sevdotdev.wowson.screens.wowstats.WowStatsArgs
+import com.sevdotdev.wowson.screens.wowstats.toArgs
 
 @Composable
 fun WowDetailsScreen(
     movieId: String,
+    onViewStatsClicked: (WowStatsArgs) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: WowDetailsViewModel = hiltViewModel(),
 ) {
@@ -70,7 +76,7 @@ fun WowDetailsScreen(
         errorContent = {
 
         }) {
-        WowDetailsContent(viewState = it)
+        WowDetailsContent(viewState = it, onViewStatsClicked = onViewStatsClicked)
     }
 }
 
@@ -78,6 +84,7 @@ fun WowDetailsScreen(
 @Composable
 fun WowDetailsContent(
     viewState: WowMetaData,
+    onViewStatsClicked: (WowStatsArgs) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
@@ -123,6 +130,9 @@ fun WowDetailsContent(
                             } wow in ${viewState.movieTitle}"
                         )
                     }
+                }
+                Button(onClick = { onViewStatsClicked(viewState.wowStats.toArgs()) }) {
+                    Text(text = stringResource(id = R.string.view_stats_label))
                 }
             }
         }

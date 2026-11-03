@@ -14,8 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.lifecycle.lifecycleScope
 import com.sevdotdev.wowson.navigation.TopLevelTab
+import com.sevdotdev.wowson.navigation.WowDetailsKey
 import com.sevdotdev.wowson.navigation.WowSonNavDisplay
 import com.sevdotdev.wowson.navigation.rememberTopLevelBackStack
 import com.sevdotdev.wowson.ui.common.core.BottomNavBar
@@ -54,12 +56,18 @@ fun WowSonApp() {
                 startTab = TopLevelTab.start.key,
                 tabs = TopLevelTab.keys,
             )
+            // Details plays video fullscreen in landscape, so the bottom bar gets out of the way.
+            val isLandscape =
+                LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+            val showBottomBar = !(isLandscape && backStack.visibleStack.last() is WowDetailsKey)
             Scaffold(
                 bottomBar = {
-                    BottomNavBar(
-                        selectedTab = backStack.currentTab,
-                        onTabSelected = backStack::switchTab,
-                    )
+                    if (showBottomBar) {
+                        BottomNavBar(
+                            selectedTab = backStack.currentTab,
+                            onTabSelected = backStack::switchTab,
+                        )
+                    }
                 },
             ) { innerPadding ->
                 WowSonNavDisplay(
