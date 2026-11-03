@@ -3,11 +3,13 @@ package com.sevdotdev.wowson.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberDecoratedNavEntries
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.scene.DialogSceneStrategy
 import androidx.navigation3.ui.NavDisplay
 import com.sevdotdev.wowson.screens.favorites.FavoritesScreen
 import com.sevdotdev.wowson.screens.wowdetails.WowDetailsScreen
@@ -25,10 +27,17 @@ fun WowSonNavDisplay(
             WowListScreen(onDetailsClicked = { backStack.push(WowDetailsKey(it)) })
         }
         entry<WowDetailsKey> { key ->
-            WowDetailsScreen(movieId = key.movieId)
+            WowDetailsScreen(
+                movieId = key.movieId,
+                onViewStatsClicked = { backStack.push(WowStatsKey(it)) },
+            )
         }
-        entry<WowStatsKey> { key ->
-            WowStatsScreen(stats = key.stats)
+        entry<WowStatsKey>(
+            metadata = DialogSceneStrategy.dialog(
+                dialogProperties = DialogProperties()
+            )
+        ) { key ->
+            WowStatsScreen(stats = key.stats, onDismissAction = backStack::pop)
         }
         entry<WowMoviesKey> { WowMoviesScreen() }
         entry<FavoritesKey> { FavoritesScreen() }
@@ -53,6 +62,7 @@ fun WowSonNavDisplay(
     NavDisplay(
         entries = backStack.tabsInUse.flatMap { entriesByTab.getValue(it) },
         onBack = { backStack.pop() },
+        sceneStrategies = listOf(DialogSceneStrategy()),
         modifier = modifier,
     )
 }
