@@ -41,8 +41,6 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSource
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootGraph
 import com.sevdotdev.domain.model.WowMetaData
 import com.sevdotdev.wowson.LocalToggler
 import com.sevdotdev.wowson.ui.common.core.DefaultLoadingScreen
@@ -55,7 +53,6 @@ import com.sevdotdev.wowson.ui.common.ext.modifyIfElse
 import com.sevdotdev.wowson.ui.common.ext.screenPadding
 import com.sevdotdev.wowson.ui.model.UiStateContentView
 
-@Destination<RootGraph>
 @Composable
 fun WowDetailsScreen(
     movieId: String,

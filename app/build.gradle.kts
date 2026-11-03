@@ -88,9 +88,6 @@ dependencies {
     implementation(Deps.navigation3Ui)
     implementation(Deps.lifecycleViewModelNavigation3)
     implementation(Deps.kotlinxSerializationJson)
-    // Compose Destinations is removed once the Nav3 shell replaces it
-    implementation(Deps.composeDestinationCore)
-    ksp(Deps.composeDestinationKsp)
 
     debugImplementation(Deps.leakCanary)
 }
