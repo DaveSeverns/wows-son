@@ -11,6 +11,7 @@ object Versions {
     const val hilt = "2.60.1"
     const val retrofit = "3.0.0"
     const val coroutines = "1.11.0"
+    const val kotlinxSerialization = "1.12.0"
 
     //Android
     const val coreKtx = "1.19.1"
@@ -27,4 +28,8 @@ object Versions {
     const val composeActivity = "1.13.0"
     const val coil = "2.7.0"
     const val composeDestinations = "2.3.0"
+
+    //Navigation 3
+    const val navigation3 = "1.2.0"
+    const val lifecycleNavigation3 = "2.11.0"
 }

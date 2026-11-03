@@ -3,6 +3,7 @@ plugins {
     id(Plugins.composeCompiler)
     id(Plugins.hiltAndroid)
     id(Plugins.ksp)
+    id(Plugins.kotlinSerialization)
 }
 
 android {
@@ -83,6 +84,11 @@ dependencies {
     implementation(Deps.exoPlayer)
 
     //navigation
+    implementation(Deps.navigation3Runtime)
+    implementation(Deps.navigation3Ui)
+    implementation(Deps.lifecycleViewModelNavigation3)
+    implementation(Deps.kotlinxSerializationJson)
+    // Compose Destinations is removed once the Nav3 shell replaces it
     implementation(Deps.composeDestinationCore)
     ksp(Deps.composeDestinationKsp)
 
